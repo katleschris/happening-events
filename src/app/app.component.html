@@ -3,4 +3,54 @@
   <mat-icon>local_fire_department</mat-icon>
   <span>Happening</span>
 </mat-toolbar>
-<app-event *ngFor="let happening of nextUp" [event]="happening"></app-event>
+<div class="content-wrapper">
+  <div class="container-wrapper">
+    <div class="container">
+      <h2>Coming up</h2>
+
+      <mat-card
+        cdkDropList
+        id="nextUp"
+        #nextUpList="cdkDropList"
+        [cdkDropListData]="nextUp"
+        [cdkDropListConnectedTo]="[doneList, inProgressList]"
+        (cdkDropListDropped)="drop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="nextUp.length === 0">Empty list</p>
+        <app-event (edit)="editEvent('nextUp', $event)" *ngFor="let happening of nextUp" cdkDrag [event]="happening"></app-event>
+      </mat-card>
+    </div>
+
+    <div class="container">
+      <h2>RSVP'd / bought ticket</h2>
+
+      <mat-card
+        cdkDropList
+        id="inProgress"
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgress"
+        [cdkDropListConnectedTo]="[nextUpList, doneList]"
+        (cdkDropListDropped)="drop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="inProgress.length === 0">Empty list</p>
+        <app-event (edit)="editEvent('inProgress', $event)" *ngFor="let happening of inProgress" cdkDrag [event]="happening"></app-event>
+      </mat-card>
+    </div>
+
+    <div class="container">
+      <h2>Attended</h2>
+
+      <mat-card
+        cdkDropList
+        id="done"
+        #doneList="cdkDropList"
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="[nextUpList, inProgressList]"
+        (cdkDropListDropped)="drop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="done.length === 0">Empty list</p>
+        <app-event (edit)="editEvent('done', $event)" *ngFor="let happening of done" cdkDrag [event]="happening"></app-event>
+      </mat-card>
+    </div>
+  </div>
+</div>
