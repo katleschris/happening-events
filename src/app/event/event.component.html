@@ -1,1 +1,6 @@
-<p>event works!</p>
+<mat-card class="item" *ngIf="event" (dblclick)="edit.emit(event)">
+    <h2>{{ event.title }}</h2>
+    <p>
+      {{ event.description }}
+    </p>
+  </mat-card>

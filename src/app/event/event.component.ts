@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+//event component
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Event } from './event';
 
 @Component({
   selector: 'app-event',
@@ -6,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./event.component.css']
 })
 export class EventComponent {
-
+  @Input() event: Event | null = null;
+  @Output() edit = new EventEmitter<Event>();
 }
