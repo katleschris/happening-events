@@ -44,7 +44,27 @@ export class AppComponent {
      })
   }
 
-  editEvent(list: string, event: Event): void {}
+  editEvent(list: 'done'| 'nextUp' | 'inProgress', event: Event): void {
+    const dialogRef = this.dialog.open(EventDialogComponent, {
+      width: '270px',
+      data: {
+        event,
+        enableDelete: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: EventDialogResult|undefined) =>{
+      if (!result){
+        return;
+      }
+      const dataList = this[list];
+      const eventIndex = dataList.indexOf(event);
+      if (result.delete){
+        dataList.splice(eventIndex, 1);
+      } else {
+        dataList[eventIndex] = event;
+      }
+    });
+  }
 
   drop(event: CdkDragDrop<Event[]>): void {
     if (event.previousContainer === event.container) {
