@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Event } from './event/event';
 import {CdkDragDrop, transferArrayItem} from '@angular/cdk/drag-drop';
 
+import { MatDialog } from '@angular/material/dialog'
+import { EventDialogResult, EventDialogComponent } from './event-dialog/event-dialog.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,6 +24,25 @@ export class AppComponent {
   ];
   inProgress: Event[] = [];
   done: Event[] = [];
+
+  constructor(private dialog: MatDialog) {}
+
+  newEvent(): void {
+    const dialogRef = this.dialog.open(EventDialogComponent, {
+      width: '270px',
+      data: {
+        event: {},
+      }
+    });
+    dialogRef
+     .afterClosed()
+     .subscribe((result: EventDialogResult | undefined) => {
+      if (!result) {
+        return;
+      }
+      this.nextUp.push(result.event)
+     })
+  }
 
   editEvent(list: string, event: Event): void {}
 
